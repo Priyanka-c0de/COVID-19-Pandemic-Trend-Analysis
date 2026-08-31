@@ -24,34 +24,48 @@ SEQUENTIAL = [
 
 LAYOUT = dict(
     template="plotly_white",
+
     font=dict(
         family="Source Sans 3, Segoe UI, Helvetica, Arial, sans-serif",
         color="#1a2332",
         size=13,
     ),
+
     margin=dict(
-        l=40,
-        r=24,
-        t=56,
-        b=40,
+        l=55,
+        r=35,
+        t=65,
+        b=50,
     ),
+
     legend=dict(
         orientation="h",
         yanchor="bottom",
         y=1.02,
         x=0,
+        font=dict(
+            color="#475569",
+            size=12,
+        ),
     ),
+
     hoverlabel=dict(
         bgcolor="white",
+        bordercolor="#dbe4ea",
         font_size=12,
+        font_family="Source Sans 3, Segoe UI, Helvetica, Arial, sans-serif",
+        font_color="#0b1f33",
     ),
+
     plot_bgcolor="#ffffff",
     paper_bgcolor="#ffffff",
+
     title_font=dict(
         family="Source Sans 3, Segoe UI, Helvetica, Arial, sans-serif",
         color="#0b1f33",
-        size=18,
+        size=17,
     ),
+
     xaxis=dict(
         title_font=dict(
             color="#334155",
@@ -62,7 +76,9 @@ LAYOUT = dict(
             size=11,
         ),
         linecolor="#cbd5e1",
+        linewidth=1,
     ),
+
     yaxis=dict(
         title_font=dict(
             color="#334155",
@@ -73,6 +89,7 @@ LAYOUT = dict(
             size=11,
         ),
         linecolor="#cbd5e1",
+        linewidth=1,
     ),
 )
 
@@ -83,6 +100,8 @@ def apply_layout(
     y_title: str = "",
     x_title: str = "",
 ):
+    """Apply the shared professional chart layout."""
+
     fig.update_layout(
         **LAYOUT,
         height=height,
@@ -99,7 +118,8 @@ def apply_layout(
     )
 
     fig.update_yaxes(
-        gridcolor="#e8eef2",
+        gridcolor="#edf1f4",
+        gridwidth=1,
         zeroline=False,
     )
 
@@ -114,6 +134,8 @@ def line_chart(
     y_title: str = "",
     color=None,
 ):
+    """Create a consistent line chart."""
+
     fig = px.line(
         df,
         x=x,
@@ -125,12 +147,8 @@ def line_chart(
 
     fig.update_traces(
         line=dict(width=2.2),
+        hovertemplate="%{x|%d %b %Y}<br>%{y:,.1f}<extra></extra>",
     )
-
-    if isinstance(y, str) and color is None:
-        fig.update_traces(
-            hovertemplate="%{x|%d %b %Y}<br>%{y:,.1f}<extra></extra>"
-        )
 
     return apply_layout(
         fig,
@@ -146,6 +164,8 @@ def bar_chart(
     title: str,
     orientation: str = "v",
 ):
+    """Create a consistent bar chart."""
+
     if orientation == "h":
         fig = px.bar(
             df,
@@ -194,6 +214,8 @@ def grouped_bar(
     y: str,
     title: str,
 ):
+    """Create a grouped categorical bar chart."""
+
     fig = px.bar(
         df,
         x=x,
@@ -222,6 +244,8 @@ def scatter_chart(
     size: str | None,
     title: str,
 ):
+    """Create a professional scatter chart."""
+
     fig = px.scatter(
         df,
         x=x,
@@ -253,6 +277,8 @@ def scatter_chart(
 def choropleth_cases(
     df: pd.DataFrame,
 ):
+    """Create the global reported-cases choropleth."""
+
     plot_df = df.dropna(
         subset=["location", "total_cases"]
     ).copy()
@@ -297,6 +323,8 @@ def choropleth_cases(
 def dual_axis_global(
     df: pd.DataFrame,
 ):
+    """Create global 7-day case and death averages."""
+
     fig = go.Figure()
 
     # 7-day average cases
@@ -326,8 +354,8 @@ def dual_axis_global(
         )
     )
 
-    # Create layout without the original LAYOUT yaxis.
-    # This prevents the "multiple values for keyword argument 'yaxis'" error.
+    # Remove the original yaxis from the shared layout
+    # before defining the two-axis configuration.
     dual_layout = {
         key: value
         for key, value in LAYOUT.items()
@@ -338,9 +366,11 @@ def dual_axis_global(
         **dual_layout,
         height=460,
         title="Global 7-day averages: cases and deaths",
+
         yaxis=dict(
             title="New cases (7-day avg.)",
-            gridcolor="#e8eef2",
+            gridcolor="#edf1f4",
+            gridwidth=1,
             title_font=dict(
                 color="#334155",
                 size=13,
@@ -351,6 +381,7 @@ def dual_axis_global(
             ),
             linecolor="#cbd5e1",
         ),
+
         yaxis2=dict(
             title="New deaths (7-day avg.)",
             overlaying="y",
@@ -365,6 +396,7 @@ def dual_axis_global(
             ),
             linecolor="#cbd5e1",
         ),
+
         xaxis_title="Date",
     )
 

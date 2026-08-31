@@ -1,9 +1,11 @@
 """Application visual theme.
 
 Original healthcare/data-analytics design.
-Inspired by professional public-health dashboards,
-but not copied from WHO branding or source code.
+Designed for the COVID-19 Pandemic Trend Analysis dashboard.
 """
+
+from __future__ import annotations
+
 
 APP_CSS = """
 <style>
@@ -23,30 +25,37 @@ body,
 .stApp {
     background:
         radial-gradient(
-            circle at 15% 10%,
+            circle at 10% 0%,
             rgba(15, 76, 92, 0.035),
-            transparent 28%
+            transparent 30%
         ),
         radial-gradient(
-            circle at 85% 20%,
+            circle at 90% 15%,
             rgba(13, 148, 136, 0.025),
-            transparent 25%
+            transparent 28%
         ),
         #f4f7f9;
 
     color: #0b1f33 !important;
 }
 
-/* Main content width and spacing */
+/* Main content */
 
 .block-container {
     max-width: 1280px;
-    padding-top: 1.4rem;
+    padding-top: 1.5rem;
     padding-bottom: 3rem;
 }
 
+/* Remove excessive Streamlit spacing */
+
+[data-testid="stVerticalBlock"] {
+    gap: 0.7rem;
+}
+
+
 /* =========================================================
-   TOP STREAMLIT HEADER
+   TOP HEADER
    ========================================================= */
 
 header[data-testid="stHeader"] {
@@ -55,14 +64,6 @@ header[data-testid="stHeader"] {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
-
-/*
-   IMPORTANT:
-   When the sidebar is collapsed, Streamlit places the
-   sidebar expand button in the top header.
-
-   These rules make that button and its icon visible.
-*/
 
 header[data-testid="stHeader"] button {
     color: #0b1f33 !important;
@@ -94,24 +95,42 @@ section[data-testid="stSidebar"] {
         linear-gradient(
             180deg,
             #0b1f33 0%,
-            #0c253b 55%,
-            #0a1c2e 100%
+            #0d2a40 55%,
+            #091b2c 100%
         );
 
     border-right: 1px solid #081827;
 
     box-shadow:
-        4px 0 24px rgba(4, 18, 30, 0.08);
+        5px 0 26px rgba(4, 18, 30, 0.10);
 }
-
-/* Sidebar text */
 
 section[data-testid="stSidebar"] * {
     color: #e8eef3 !important;
 }
 
+/* Sidebar navigation */
+
+section[data-testid="stSidebar"] div[role="radiogroup"] {
+    gap: 4px;
+}
+
+section[data-testid="stSidebar"] div[role="radiogroup"] label {
+    border-radius: 9px;
+    padding: 7px 9px;
+    margin: 1px 0;
+    transition:
+        background-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+section[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
+    background: rgba(255, 255, 255, 0.075);
+    transform: translateX(2px);
+}
+
 section[data-testid="stSidebar"] .stRadio label {
-    font-size: 0.92rem;
+    font-size: 0.93rem;
     color: #e8eef3 !important;
     opacity: 1 !important;
 }
@@ -125,26 +144,11 @@ section[data-testid="stSidebar"] .stRadio label div {
     visibility: visible !important;
 }
 
-/* Sidebar radio buttons */
-
-section[data-testid="stSidebar"] div[role="radiogroup"] label {
-    border-radius: 8px;
-    padding: 5px 8px;
-    transition:
-        background-color 0.15s ease,
-        transform 0.15s ease;
-}
-
-section[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
-    background: rgba(255, 255, 255, 0.07);
-    transform: translateX(2px);
-}
-
 /* Sidebar brand */
 
 .brand-mark {
     font-size: 0.70rem;
-    letter-spacing: 0.17em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: #8fb0c3 !important;
     margin-bottom: 0.25rem;
@@ -152,21 +156,22 @@ section[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
 }
 
 .brand-title {
-    font-size: 1.16rem;
+    font-size: 1.18rem;
     font-weight: 700;
     color: #ffffff !important;
     line-height: 1.3;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.3rem;
 }
 
-/* Sidebar user card */
+/* Sidebar user */
 
 .user-box {
     background: rgba(255, 255, 255, 0.065);
     border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 12px;
+
     padding: 13px 14px;
-    margin-bottom: 17px;
+    margin-bottom: 18px;
 
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.035);
@@ -187,29 +192,36 @@ section[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
 
 
 /* =========================================================
-   MAIN PAGE TYPOGRAPHY
+   PAGE HEADER
    ========================================================= */
 
 .main-title {
-    font-size: 1.85rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #0b1f33 !important;
+
     margin: 0 0 0.25rem 0;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+
+    letter-spacing: -0.025em;
+    line-height: 1.18;
 }
 
 .subtitle {
     color: #526476 !important;
     font-size: 0.98rem;
-    margin-bottom: 1.4rem;
+
+    margin-bottom: 1.35rem;
+
+    line-height: 1.5;
 }
 
 .section-title {
     color: #0b1f33 !important;
-    font-size: 1.2rem;
+
+    font-size: 1.18rem;
     font-weight: 700;
-    margin: 1.6rem 0 0.7rem 0;
+
+    margin: 1.45rem 0 0.65rem 0;
 }
 
 
@@ -218,59 +230,84 @@ section[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
    ========================================================= */
 
 .metric-card {
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.94),
-            rgba(255, 255, 255, 0.80)
-        );
+    position: relative;
 
-    border: 1px solid rgba(203, 213, 225, 0.80);
+    background: #ffffff;
+
+    border: 1px solid #dbe4ea;
     border-radius: 14px;
 
-    padding: 18px 18px 16px 18px;
-    min-height: 118px;
+    padding: 18px 18px 17px 18px;
+
+    min-height: 122px;
 
     box-shadow:
-        0 4px 18px rgba(11, 31, 51, 0.045),
-        inset 0 1px 0 rgba(255, 255, 255, 0.90);
+        0 3px 14px rgba(11, 31, 51, 0.045);
 
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    overflow: hidden;
 
     transition:
         transform 0.18s ease,
-        box-shadow 0.18s ease;
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+}
+
+/* Subtle accent line */
+
+.metric-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 3px;
+
+    background: #0f4c5c;
 }
 
 .metric-card:hover {
     transform: translateY(-2px);
 
+    border-color: #cbd9e1;
+
     box-shadow:
-        0 8px 24px rgba(11, 31, 51, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        0 8px 24px rgba(11, 31, 51, 0.08);
 }
 
 .metric-label {
     color: #536678 !important;
-    font-size: 0.75rem;
-    font-weight: 600;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.065em;
 }
 
 .metric-value {
     color: #0b1f33 !important;
-    font-size: 1.65rem;
+
+    font-size: 1.68rem;
     font-weight: 700;
+
     margin-top: 8px;
-    letter-spacing: -0.03em;
+
+    letter-spacing: -0.035em;
+
+    line-height: 1.15;
 }
 
 .metric-description {
     color: #718292 !important;
+
     font-size: 0.78rem;
-    margin-top: 6px;
+
+    margin-top: 7px;
+
+    line-height: 1.35;
 }
 
 
@@ -279,20 +316,15 @@ section[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
    ========================================================= */
 
 div[data-testid="stPlotlyChart"] {
-    background:
-        rgba(255, 255, 255, 0.88);
+    background: #ffffff;
 
-    border: 1px solid rgba(203, 213, 225, 0.82);
-    border-radius: 14px;
+    border: 1px solid #dbe4ea;
+    border-radius: 13px;
 
     padding: 7px;
 
     box-shadow:
-        0 4px 18px rgba(11, 31, 51, 0.045),
-        inset 0 1px 0 rgba(255, 255, 255, 0.90);
-
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+        0 3px 14px rgba(11, 31, 51, 0.045);
 }
 
 
@@ -301,14 +333,15 @@ div[data-testid="stPlotlyChart"] {
    ========================================================= */
 
 .insight-card {
-    background:
-        rgba(255, 255, 255, 0.88);
+    background: #ffffff;
 
     border: 1px solid #d8e2e8;
     border-left: 4px solid #0f4c5c;
+
     border-radius: 10px;
 
     padding: 14px 18px;
+
     margin-bottom: 10px;
 
     box-shadow:
@@ -317,20 +350,23 @@ div[data-testid="stPlotlyChart"] {
 
 .insight-title {
     color: #0b1f33 !important;
+
     font-weight: 700;
     font-size: 0.95rem;
+
     margin-bottom: 4px;
 }
 
 .insight-text {
     color: #405466 !important;
+
     font-size: 0.9rem;
     line-height: 1.5;
 }
 
 
 /* =========================================================
-   NOTE / INFORMATION BOX
+   INFORMATION BOX
    ========================================================= */
 
 .note-box {
@@ -338,15 +374,17 @@ div[data-testid="stPlotlyChart"] {
         linear-gradient(
             135deg,
             #eef6f7,
-            #f4f8f9
+            #f6f9fa
         );
 
     border: 1px solid #cfe0e3;
+
     border-radius: 10px;
 
     padding: 12px 14px;
 
     color: #334155 !important;
+
     font-size: 0.9rem;
 
     margin: 0.4rem 0 1rem 0;
@@ -359,7 +397,10 @@ div[data-testid="stPlotlyChart"] {
 
 div[data-testid="stDataFrame"] {
     border: 1px solid #d8e2e8;
+
     border-radius: 10px;
+
+    overflow: hidden;
 
     box-shadow:
         0 2px 10px rgba(11, 31, 51, 0.035);
@@ -375,33 +416,33 @@ div[data-testid="stDataFrame"] {
 
     margin: 3.5rem auto 2rem auto;
 
-    background:
-        rgba(255, 255, 255, 0.90);
+    background: #ffffff;
 
-    border: 1px solid rgba(203, 213, 225, 0.85);
+    border: 1px solid #dbe4ea;
+
     border-radius: 18px;
 
     padding: 2rem 2rem 1.4rem 2rem;
 
     box-shadow:
-        0 16px 45px rgba(11, 31, 51, 0.09),
-        inset 0 1px 0 rgba(255, 255, 255, 0.90);
-
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+        0 16px 45px rgba(11, 31, 51, 0.09);
 }
 
 .auth-kicker {
     font-size: 0.75rem;
+
     letter-spacing: 0.14em;
+
     text-transform: uppercase;
 
     color: #0f4c5c !important;
+
     font-weight: 700;
 }
 
 .auth-title {
-    font-size: 1.7rem;
+    font-size: 1.72rem;
+
     font-weight: 700;
 
     color: #0b1f33 !important;
@@ -411,8 +452,12 @@ div[data-testid="stDataFrame"] {
 
 .auth-copy {
     color: #536678 !important;
+
     font-size: 0.95rem;
+
     margin-bottom: 1.2rem;
+
+    line-height: 1.5;
 }
 
 .auth-wrap + div {
@@ -426,6 +471,7 @@ div[data-testid="stDataFrame"] {
 
 div[data-testid="stRadio"] label p {
     color: #0b1f33 !important;
+
     font-weight: 600 !important;
 }
 
@@ -435,19 +481,22 @@ div[data-testid="stRadio"] label {
 
 div[data-testid="stTextInput"] label p {
     color: #334155 !important;
+
     font-weight: 600 !important;
 }
 
 
 /* =========================================================
-   TEXT INPUTS
+   INPUTS
    ========================================================= */
 
 div[data-testid="stTextInput"] input {
     background-color: #ffffff !important;
+
     color: #0b1f33 !important;
 
     border: 1px solid #cbd5e1 !important;
+
     border-radius: 9px !important;
 }
 
@@ -465,56 +514,14 @@ div[data-testid="stTextInput"] input:focus {
 
 
 /* =========================================================
-   BUTTONS
+   SELECTBOX / DATE INPUT
    ========================================================= */
-
-div[data-testid="stFormSubmitButton"] button {
-    background-color: #0b1f33 !important;
-
-    color: #ffffff !important;
-
-    border: none !important;
-    border-radius: 9px !important;
-
-    font-weight: 700 !important;
-    min-height: 44px !important;
-
-    transition:
-        background-color 0.15s ease,
-        transform 0.15s ease;
-}
-
-div[data-testid="stFormSubmitButton"] button:hover {
-    background-color: #123a57 !important;
-    color: #ffffff !important;
-
-    transform: translateY(-1px);
-}
-
-div[data-testid="stFormSubmitButton"] button p {
-    color: #ffffff !important;
-    font-weight: 700 !important;
-}
-
-.stDownloadButton button,
-.stButton button {
-    border-radius: 9px;
-    font-weight: 600;
-}
-
-
-/* =========================================================
-   SELECTBOX / DATE INPUT / MULTISELECT
-   ========================================================= */
-
-/*
-   These rules keep filter controls readable in the
-   light professional theme.
-*/
 
 div[data-baseweb="select"] > div {
     background-color: #ffffff !important;
+
     border-color: #cbd5e1 !important;
+
     border-radius: 9px !important;
 }
 
@@ -528,14 +535,65 @@ div[data-baseweb="select"] input {
 
 div[data-testid="stDateInput"] input {
     background-color: #ffffff !important;
+
     color: #0b1f33 !important;
+
     border-color: #cbd5e1 !important;
+
     border-radius: 9px !important;
 }
 
 
 /* =========================================================
-   GENERAL STREAMLIT TEXT SAFETY
+   BUTTONS
+   ========================================================= */
+
+div[data-testid="stFormSubmitButton"] button {
+    background-color: #0b1f33 !important;
+
+    color: #ffffff !important;
+
+    border: none !important;
+
+    border-radius: 9px !important;
+
+    font-weight: 700 !important;
+
+    min-height: 44px !important;
+
+    transition:
+        background-color 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+div[data-testid="stFormSubmitButton"] button:hover {
+    background-color: #123a57 !important;
+
+    color: #ffffff !important;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(11, 31, 51, 0.16);
+}
+
+div[data-testid="stFormSubmitButton"] button p {
+    color: #ffffff !important;
+
+    font-weight: 700 !important;
+}
+
+.stDownloadButton button,
+.stButton button {
+    border-radius: 9px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   GENERAL TEXT
    ========================================================= */
 
 [data-testid="stMarkdownContainer"] p,
@@ -543,11 +601,6 @@ div[data-testid="stDateInput"] input {
 [data-testid="stMarkdownContainer"] span {
     color: #263746;
 }
-
-/*
-   Do not let generic markdown rules make headings
-   accidentally appear too light.
-*/
 
 [data-testid="stMarkdownContainer"] h1,
 [data-testid="stMarkdownContainer"] h2,
@@ -563,6 +616,7 @@ div[data-testid="stDateInput"] input {
 
 [data-testid="stMetricValue"] {
     color: #0b1f33 !important;
+
     font-weight: 700;
 }
 
@@ -572,7 +626,7 @@ div[data-testid="stDateInput"] input {
 
 
 /* =========================================================
-   ALERTS / STATUS MESSAGES
+   ALERTS
    ========================================================= */
 
 div[data-testid="stAlert"] {
@@ -590,6 +644,7 @@ div[data-testid="stAlert"] {
     color: #657687 !important;
 
     margin-top: 2.8rem;
+
     padding-top: 1.2rem;
 
     border-top: 1px solid #d8e2e8;
@@ -599,7 +654,7 @@ div[data-testid="stAlert"] {
 
 
 /* =========================================================
-   MOBILE / SMALL SCREENS
+   RESPONSIVE
    ========================================================= */
 
 @media (max-width: 768px) {
@@ -615,6 +670,10 @@ div[data-testid="stAlert"] {
 
     .metric-card {
         min-height: 105px;
+    }
+
+    .metric-value {
+        font-size: 1.45rem;
     }
 
     .auth-wrap {
