@@ -6,44 +6,146 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+
 COLOR_PRIMARY = "#0f4c5c"
 COLOR_ACCENT = "#e36414"
 COLOR_LINE = "#1d4e89"
 COLOR_DEATHS = "#9a031e"
 COLOR_TEAL = "#0d9488"
-SEQUENTIAL = ["#0b1f33", "#0f4c5c", "#1d4e89", "#0d9488", "#e36414"]
+
+SEQUENTIAL = [
+    "#0b1f33",
+    "#0f4c5c",
+    "#1d4e89",
+    "#0d9488",
+    "#e36414",
+]
+
 
 LAYOUT = dict(
     template="plotly_white",
-    font=dict(family="Source Sans 3, Segoe UI, Helvetica, Arial, sans-serif", color="#1a2332", size=13),
-    margin=dict(l=40, r=24, t=56, b=40),
-    legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0),
-    hoverlabel=dict(bgcolor="white", font_size=12),
+    font=dict(
+        family="Source Sans 3, Segoe UI, Helvetica, Arial, sans-serif",
+        color="#1a2332",
+        size=13,
+    ),
+    margin=dict(
+        l=40,
+        r=24,
+        t=56,
+        b=40,
+    ),
+    legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        x=0,
+    ),
+    hoverlabel=dict(
+        bgcolor="white",
+        font_size=12,
+    ),
     plot_bgcolor="#ffffff",
     paper_bgcolor="#ffffff",
-    title_font=dict(family="Source Sans 3, Segoe UI, Helvetica, Arial, sans-serif", color="#0b1f33", size=18),
-    xaxis=dict(title_font=dict(color="#334155", size=13), tickfont=dict(color="#475569", size=11), linecolor="#cbd5e1"),
-    yaxis=dict(title_font=dict(color="#334155", size=13), tickfont=dict(color="#475569", size=11), linecolor="#cbd5e1"),
+    title_font=dict(
+        family="Source Sans 3, Segoe UI, Helvetica, Arial, sans-serif",
+        color="#0b1f33",
+        size=18,
+    ),
+    xaxis=dict(
+        title_font=dict(
+            color="#334155",
+            size=13,
+        ),
+        tickfont=dict(
+            color="#475569",
+            size=11,
+        ),
+        linecolor="#cbd5e1",
+    ),
+    yaxis=dict(
+        title_font=dict(
+            color="#334155",
+            size=13,
+        ),
+        tickfont=dict(
+            color="#475569",
+            size=11,
+        ),
+        linecolor="#cbd5e1",
+    ),
 )
 
 
-def apply_layout(fig, height: int = 440, y_title: str = "", x_title: str = ""):
-    fig.update_layout(**LAYOUT, height=height)
-    fig.update_layout(xaxis_title=x_title, yaxis_title=y_title)
-    fig.update_xaxes(showgrid=False, zeroline=False)
-    fig.update_yaxes(gridcolor="#e8eef2", zeroline=False)
+def apply_layout(
+    fig,
+    height: int = 440,
+    y_title: str = "",
+    x_title: str = "",
+):
+    fig.update_layout(
+        **LAYOUT,
+        height=height,
+    )
+
+    fig.update_layout(
+        xaxis_title=x_title,
+        yaxis_title=y_title,
+    )
+
+    fig.update_xaxes(
+        showgrid=False,
+        zeroline=False,
+    )
+
+    fig.update_yaxes(
+        gridcolor="#e8eef2",
+        zeroline=False,
+    )
+
     return fig
 
 
-def line_chart(df: pd.DataFrame, x: str, y, title: str, y_title: str = "", color=None):
-    fig = px.line(df, x=x, y=y, color=color, title=title, color_discrete_sequence=SEQUENTIAL)
-    fig.update_traces(line=dict(width=2.2))
+def line_chart(
+    df: pd.DataFrame,
+    x: str,
+    y,
+    title: str,
+    y_title: str = "",
+    color=None,
+):
+    fig = px.line(
+        df,
+        x=x,
+        y=y,
+        color=color,
+        title=title,
+        color_discrete_sequence=SEQUENTIAL,
+    )
+
+    fig.update_traces(
+        line=dict(width=2.2),
+    )
+
     if isinstance(y, str) and color is None:
-        fig.update_traces(hovertemplate="%{x|%d %b %Y}<br>%{y:,.1f}<extra></extra>")
-    return apply_layout(fig, y_title=y_title, x_title="Date")
+        fig.update_traces(
+            hovertemplate="%{x|%d %b %Y}<br>%{y:,.1f}<extra></extra>"
+        )
+
+    return apply_layout(
+        fig,
+        y_title=y_title,
+        x_title="Date",
+    )
 
 
-def bar_chart(df: pd.DataFrame, x: str, y: str, title: str, orientation: str = "v"):
+def bar_chart(
+    df: pd.DataFrame,
+    x: str,
+    y: str,
+    title: str,
+    orientation: str = "v",
+):
     if orientation == "h":
         fig = px.bar(
             df,
@@ -54,8 +156,18 @@ def bar_chart(df: pd.DataFrame, x: str, y: str, title: str, orientation: str = "
             color_discrete_sequence=[COLOR_PRIMARY],
             text_auto=".2s",
         )
-        fig.update_traces(hovertemplate="%{y}<br>%{x:,.2f}<extra></extra>")
-        return apply_layout(fig, height=max(420, 28 * len(df) + 120), x_title=x.replace("_", " ").title(), y_title="")
+
+        fig.update_traces(
+            hovertemplate="%{y}<br>%{x:,.2f}<extra></extra>"
+        )
+
+        return apply_layout(
+            fig,
+            height=max(420, 28 * len(df) + 120),
+            x_title=x.replace("_", " ").title(),
+            y_title="",
+        )
+
     fig = px.bar(
         df,
         x=x,
@@ -64,17 +176,52 @@ def bar_chart(df: pd.DataFrame, x: str, y: str, title: str, orientation: str = "
         color_discrete_sequence=[COLOR_PRIMARY],
         text_auto=".2s",
     )
-    fig.update_traces(hovertemplate="%{x}<br>%{y:,.2f}<extra></extra>")
-    return apply_layout(fig, y_title=y.replace("_", " ").title(), x_title="")
+
+    fig.update_traces(
+        hovertemplate="%{x}<br>%{y:,.2f}<extra></extra>"
+    )
+
+    return apply_layout(
+        fig,
+        y_title=y.replace("_", " ").title(),
+        x_title="",
+    )
 
 
-def grouped_bar(df: pd.DataFrame, x: str, y: str, title: str):
-    fig = px.bar(df, x=x, y=y, title=title, color=x, color_discrete_sequence=SEQUENTIAL, text_auto=".2s")
-    fig.update_layout(showlegend=False)
-    return apply_layout(fig, y_title=y.replace("_", " ").title())
+def grouped_bar(
+    df: pd.DataFrame,
+    x: str,
+    y: str,
+    title: str,
+):
+    fig = px.bar(
+        df,
+        x=x,
+        y=y,
+        title=title,
+        color=x,
+        color_discrete_sequence=SEQUENTIAL,
+        text_auto=".2s",
+    )
+
+    fig.update_layout(
+        showlegend=False,
+    )
+
+    return apply_layout(
+        fig,
+        y_title=y.replace("_", " ").title(),
+    )
 
 
-def scatter_chart(df: pd.DataFrame, x: str, y: str, hover: str, size: str | None, title: str):
+def scatter_chart(
+    df: pd.DataFrame,
+    x: str,
+    y: str,
+    hover: str,
+    size: str | None,
+    title: str,
+):
     fig = px.scatter(
         df,
         x=x,
@@ -84,7 +231,17 @@ def scatter_chart(df: pd.DataFrame, x: str, y: str, hover: str, size: str | None
         title=title,
         color_discrete_sequence=[COLOR_TEAL],
     )
-    fig.update_traces(marker=dict(opacity=0.75, line=dict(width=0.5, color="white")))
+
+    fig.update_traces(
+        marker=dict(
+            opacity=0.75,
+            line=dict(
+                width=0.5,
+                color="white",
+            ),
+        )
+    )
+
     return apply_layout(
         fig,
         height=520,
@@ -93,18 +250,33 @@ def scatter_chart(df: pd.DataFrame, x: str, y: str, hover: str, size: str | None
     )
 
 
-def choropleth_cases(df: pd.DataFrame):
-    plot_df = df.dropna(subset=["location", "total_cases"]).copy()
+def choropleth_cases(
+    df: pd.DataFrame,
+):
+    plot_df = df.dropna(
+        subset=["location", "total_cases"]
+    ).copy()
+
     fig = px.choropleth(
         plot_df,
         locations="location",
         locationmode="country names",
         color="total_cases",
         hover_name="location",
-        hover_data={"total_cases": ":,.0f", "total_deaths": ":,.0f", "location": False},
-        color_continuous_scale=["#e8f1f2", "#0d9488", "#0f4c5c", "#0b1f33"],
+        hover_data={
+            "total_cases": ":,.0f",
+            "total_deaths": ":,.0f",
+            "location": False,
+        },
+        color_continuous_scale=[
+            "#e8f1f2",
+            "#0d9488",
+            "#0f4c5c",
+            "#0b1f33",
+        ],
         title="Reported cases by country or territory",
     )
+
     fig.update_layout(
         **LAYOUT,
         height=520,
@@ -114,36 +286,95 @@ def choropleth_cases(df: pd.DataFrame):
             coastlinecolor="#cbd5e1",
             bgcolor="#f8fafb",
         ),
-        coloraxis_colorbar=dict(title="Cases"),
+        coloraxis_colorbar=dict(
+            title="Cases",
+        ),
     )
+
     return fig
 
 
-def dual_axis_global(df: pd.DataFrame):
+def dual_axis_global(
+    df: pd.DataFrame,
+):
     fig = go.Figure()
+
+    # 7-day average cases
     fig.add_trace(
         go.Scatter(
             x=df["date"],
             y=df["new_cases_7day_avg"],
             name="7-day avg. cases",
-            line=dict(color=COLOR_LINE, width=2.2),
+            line=dict(
+                color=COLOR_LINE,
+                width=2.2,
+            ),
         )
     )
+
+    # 7-day average deaths
     fig.add_trace(
         go.Scatter(
             x=df["date"],
             y=df["new_deaths_7day_avg"],
             name="7-day avg. deaths",
             yaxis="y2",
-            line=dict(color=COLOR_DEATHS, width=2.2),
+            line=dict(
+                color=COLOR_DEATHS,
+                width=2.2,
+            ),
         )
     )
+
+    # Create layout without the original LAYOUT yaxis.
+    # This prevents the "multiple values for keyword argument 'yaxis'" error.
+    dual_layout = {
+        key: value
+        for key, value in LAYOUT.items()
+        if key != "yaxis"
+    }
+
     fig.update_layout(
-        **LAYOUT,
+        **dual_layout,
         height=460,
         title="Global 7-day averages: cases and deaths",
-        yaxis=dict(title="New cases (7-day avg.)", gridcolor="#e8eef2"),
-        yaxis2=dict(title="New deaths (7-day avg.)", overlaying="y", side="right"),
+        yaxis=dict(
+            title="New cases (7-day avg.)",
+            gridcolor="#e8eef2",
+            title_font=dict(
+                color="#334155",
+                size=13,
+            ),
+            tickfont=dict(
+                color="#475569",
+                size=11,
+            ),
+            linecolor="#cbd5e1",
+        ),
+        yaxis2=dict(
+            title="New deaths (7-day avg.)",
+            overlaying="y",
+            side="right",
+            title_font=dict(
+                color="#334155",
+                size=13,
+            ),
+            tickfont=dict(
+                color="#475569",
+                size=11,
+            ),
+            linecolor="#cbd5e1",
+        ),
         xaxis_title="Date",
     )
+
+    fig.update_xaxes(
+        showgrid=False,
+        zeroline=False,
+    )
+
+    fig.update_yaxes(
+        zeroline=False,
+    )
+
     return fig
