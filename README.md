@@ -4,6 +4,12 @@ An authenticated Streamlit web application for exploring reported COVID-19 cases
 
 The application is intended for a college faculty demonstration: it keeps the original analysis files, adds SQLite user accounts, and presents a professional dashboard without fabricating statistics.
 
+## 🚀 Deployment
+
+**Live Demo:** [COVID-19 Pandemic Trend Analysis Dashboard](https://covid-19-pandemic-trend-analysis-qtsmwrvjvdmeebfmgn5mpt.streamlit.app/)
+
+The application is deployed on Streamlit Cloud. You can access the live dashboard using the link above.
+
 ## Objectives
 
 - Provide a working, login-protected analytics dashboard.
@@ -52,19 +58,19 @@ No React, Node.js, Docker, cloud databases, or JWT APIs are used.
 
 ```
 Browser  →  Streamlit UI  →  Auth (session)  →  SQLite (users)
-                              ↓
-                         Data loader
-                              ↓
-              CSV files in data/ and notebooks/
-                              ↓
-                    Pandas + Plotly views
+                               ↓
+                          Data loader
+                               ↓
+               CSV files in data/ and notebooks/
+                               ↓
+                     Pandas + Plotly views
 ```
 
 `dashboard/app.py` is the single entry point. Unauthenticated visitors only see sign-in and registration. After a successful login, the sidebar exposes the analytics modules.
 
 ## Dataset source
 
-The included files are processed extracts originally derived from **Our World in Data (OWID)** COVID-19 data. The notebook `notebooks/01_Data_Collection.ipynb` documents collection from `owid-covid-data.csv` (that raw file is not required to run the dashboard).
+The included files are processed extracts originally derived from **Our World in Data (OWID)** COVID-19 data. The notebook `notebooks/01_Data_Collection.ipynb` documents collection from `owid-covid-data.csv`.
 
 This application never downloads live COVID-19 statistics. It only reads the local CSVs listed below.
 
@@ -196,7 +202,7 @@ COVID-19-Pandemic-Trend-Analysis-master/
 - Vaccination time series exist for **five countries only**. Many locations have blank vaccination fields in the snapshot; those blanks are not filled in with estimates.
 - The country snapshot vaccination columns can be earlier than the five-country time series. Where a later observation exists, the dashboard prefers that later value for display.
 - `country_peaks.csv` includes a few territories that are not in `dashboard_country.csv`.
-- Late dates in `global_daily.csv` include zeros; “latest new cases” uses the last date with a non-zero case count.
+- Late dates in `global_daily.csv` include zeros; "latest new cases" uses the last date with a non-zero case count.
 - Reported cases and deaths reflect surveillance systems, not a complete count of all infections.
 
 ## Future enhancements
