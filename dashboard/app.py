@@ -189,7 +189,13 @@ def render_sidebar() -> str:
         st.session_state.authenticated = False
         st.session_state.user = None
         st.rerun()
-    st.sidebar.caption("Protected workspace · SQLite session")
+    st.sidebar.markdown(
+        '<div class="sidebar-status">'
+        '<span class="status-dot"></span>'
+        "Protected workspace · SQLite session"
+        "</div>",
+        unsafe_allow_html=True,
+    )
     return page
 
 

@@ -190,6 +190,24 @@ section[data-testid="stSidebar"] .stRadio label div {
     margin-top: 3px;
 }
 
+/* Sidebar status */
+
+.sidebar-status {
+    color: #8fa8b8 !important;
+    font-size: 0.72rem;
+    text-align: center;
+    margin-top: 0.7rem;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #2dd4bf;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+}
 
 /* =========================================================
    PAGE HEADER
